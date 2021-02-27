@@ -27,6 +27,11 @@ app.use(function(req, res, next) {
   next(createError(404));
 });
 
+// set up a route to redirect https to http
+http.get('*', function(req, res) {  
+  res.redirect('http://' + req.headers.host + req.url);
+});
+
 // error handler
 app.use(function(err, req, res, next) {
   // set locals, only providing error in development
