@@ -5,8 +5,12 @@ html
     link(rel='stylesheet', href='/stylesheets/style.css')
 
   .header
-    block header 
-  body
+    h1= title
+    .navbar 
+      a(href="/") Home
+      a(href="/nihonnoyume/") 日本の夢
+      a(href="/jikannoyume/") 時間の夢
+  .content 
     block content
   .footer
     block footer 

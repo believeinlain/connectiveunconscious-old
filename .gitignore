@@ -1,3 +1,6 @@
+# Don't upload photos
+photos/
+
 # Logs
 logs
 *.log

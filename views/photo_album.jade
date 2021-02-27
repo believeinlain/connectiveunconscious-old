@@ -1,0 +1,10 @@
+extends layout
+
+block content
+  .gallery  
+    img(src="/#{album}/photos/#{photo}", alt="#{title}")
+    a(href="/#{album}/?image=#{last_id}", class="japanese") 先
+    a(href="/#{album}/?image=#{next_id}", class="japanese") 次
+  
+block footer 
+  p Photos by Stephanie Aelmore, no rights reserved. 
