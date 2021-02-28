@@ -28,7 +28,7 @@ app.use(function(req, res, next) {
 });
 
 // set up a route to redirect https to http
-app.use('*', function(req, res) {  
+app.get('*', function(req, res) {  
   res.redirect('http://' + req.headers.host + req.url);
 });
 

@@ -7,6 +7,7 @@
 var app = require('../app');
 var debug = require('debug')('connectiveunconscious:server');
 var http = require('http');
+var https = require('https');
 
 /**
  * Get port from environment and store in Express.
@@ -28,6 +29,12 @@ var server = http.createServer(app);
 server.listen(port);
 server.on('error', onError);
 server.on('listening', onListening);
+
+var httpsServer = https.createServer({}, (req, res) => {
+  res.redirect('started');
+});
+httpsServer.on('error', onError);
+httpsServer.listen(443);
 
 /**
  * Normalize a port into a number, string, or false.
