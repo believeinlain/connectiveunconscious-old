@@ -4,6 +4,8 @@
  * Module dependencies.
  */
 
+var express = require('express');
+var fs = require('fs');
 var app = require('../app');
 // var debug = require('debug')('connectiveunconscious:server');
 var http = require('http');
@@ -20,15 +22,19 @@ if (argv.includes('s')) {
   };
   const httpsServer = https.createServer(credentials, app);
   httpsServer.listen(443, () => {
-    console.log('HTTPS Server running on port 443');
+    console.log('HTTPS Server running');
   });
 }
 
-const httpServer = http.createServer(app);
-
-httpServer.listen(80, () => {
-  console.log('HTTP Server running on port 80');
+const httpApp = express();
+httpApp.all('*', (req, res) => {
+  res.redirect(300, 'https://' + req.headers.host + req.url);
 });
+const httpServer = http.createServer(httpApp);
+httpServer.listen(8080, () => {
+  console.log('HTTP Server running');
+});
+
 
 /**
  * Get port from environment and store in Express.
