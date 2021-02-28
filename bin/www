@@ -5,93 +5,114 @@
  */
 
 var app = require('../app');
-var debug = require('debug')('connectiveunconscious:server');
+// var debug = require('debug')('connectiveunconscious:server');
 var http = require('http');
 var https = require('https');
+const { argv } = require('process');
+
+// optional https support
+if (argv.includes('s')) {
+  // Certificate
+  var credentials = {
+    key: fs.readFileSync('/etc/letsencrypt/live/connectiveunconscious.com/privkey.pem', 'utf8'),
+    cert: fs.readFileSync('/etc/letsencrypt/live/connectiveunconscious.com/cert.pem', 'utf8'),
+    ca: fs.readFileSync('/etc/letsencrypt/live/connectiveunconscious.com/chain.pem', 'utf8')
+  };
+  const httpsServer = https.createServer(credentials, app);
+  httpsServer.listen(443, () => {
+    console.log('HTTPS Server running on port 443');
+  });
+}
+
+const httpServer = http.createServer(app);
+
+httpServer.listen(80, () => {
+  console.log('HTTP Server running on port 80');
+});
 
 /**
  * Get port from environment and store in Express.
  */
+// var port = normalizePort(process.env.PORT || '3000');
+// app.set('port', port);
 
-var port = normalizePort(process.env.PORT || '3000');
-app.set('port', port);
+// var server = http.createServer(app);
 
-/**
- * Create HTTP server.
- */
+// /**
+//  * Listen on provided port, on all network interfaces.
+//  */
 
-var server = http.createServer(app);
+// server.listen(port, () => {
+//   console.log(`HTTP Server running on port ${port}`);
+// });
+// server.on('error', onError);
+// server.on('listening', onListening);
 
-/**
- * Listen on provided port, on all network interfaces.
- */
+// var httpsServer = https.createServer();
+// httpsServer.on('error', onError);
+// httpsServer.listen(443, () => {
+//   console.log('HTTPS Server running on port 443');
+// });
+// https.get('https://*', function(req, res) {  
+//   res.redirect('http://' + req.headers.host + req.url);
+// });
 
-server.listen(port);
-server.on('error', onError);
-server.on('listening', onListening);
+// /**
+//  * Normalize a port into a number, string, or false.
+//  */
 
-var httpsServer = https.createServer({}, (req, res) => {
-  res.redirect('started');
-});
-httpsServer.on('error', onError);
-httpsServer.listen(443);
+// function normalizePort(val) {
+//   var port = parseInt(val, 10);
 
-/**
- * Normalize a port into a number, string, or false.
- */
+//   if (isNaN(port)) {
+//     // named pipe
+//     return val;
+//   }
 
-function normalizePort(val) {
-  var port = parseInt(val, 10);
+//   if (port >= 0) {
+//     // port number
+//     return port;
+//   }
 
-  if (isNaN(port)) {
-    // named pipe
-    return val;
-  }
+//   return false;
+// }
 
-  if (port >= 0) {
-    // port number
-    return port;
-  }
+// /**
+//  * Event listener for HTTP server "error" event.
+//  */
 
-  return false;
-}
+// function onError(error) {
+//   if (error.syscall !== 'listen') {
+//     throw error;
+//   }
 
-/**
- * Event listener for HTTP server "error" event.
- */
+//   var bind = typeof port === 'string'
+//     ? 'Pipe ' + port
+//     : 'Port ' + port;
 
-function onError(error) {
-  if (error.syscall !== 'listen') {
-    throw error;
-  }
+//   // handle specific listen errors with friendly messages
+//   switch (error.code) {
+//     case 'EACCES':
+//       console.error(bind + ' requires elevated privileges');
+//       process.exit(1);
+//       break;
+//     case 'EADDRINUSE':
+//       console.error(bind + ' is already in use');
+//       process.exit(1);
+//       break;
+//     default:
+//       throw error;
+//   }
+// }
 
-  var bind = typeof port === 'string'
-    ? 'Pipe ' + port
-    : 'Port ' + port;
+// /**
+//  * Event listener for HTTP server "listening" event.
+//  */
 
-  // handle specific listen errors with friendly messages
-  switch (error.code) {
-    case 'EACCES':
-      console.error(bind + ' requires elevated privileges');
-      process.exit(1);
-      break;
-    case 'EADDRINUSE':
-      console.error(bind + ' is already in use');
-      process.exit(1);
-      break;
-    default:
-      throw error;
-  }
-}
-
-/**
- * Event listener for HTTP server "listening" event.
- */
-
-function onListening() {
-  var addr = server.address();
-  var bind = typeof addr === 'string'
-    ? 'pipe ' + addr
-    : 'port ' + addr.port;
-  debug('Listening on ' + bind);
-}
+// function onListening() {
+//   var addr = server.address();
+//   var bind = typeof addr === 'string'
+//     ? 'pipe ' + addr
+//     : 'port ' + addr.port;
+//   debug('Listening on ' + bind);
+// }
