@@ -1,40 +1,45 @@
 #!/usr/bin/env node
 
-/**
- * Module dependencies.
- */
-
-var express = require('express');
-var fs = require('fs');
-var app = require('../app');
+const fs = require('fs');
+const app = require('../app');
 // var debug = require('debug')('connectiveunconscious:server');
-var http = require('http');
-var https = require('https');
+const http = require('http');
 const { argv } = require('process');
 
+// Are we using https?
+const use_https = argv.includes('s');
+
 // optional https support
-if (argv.includes('s')) {
+if (use_https)
+{
+  const https = require('https');
+  const express = require('express');
+
   // Certificate
   var credentials = {
     key: fs.readFileSync('/etc/letsencrypt/live/connectiveunconscious.com/privkey.pem', 'utf8'),
     cert: fs.readFileSync('/etc/letsencrypt/live/connectiveunconscious.com/cert.pem', 'utf8'),
     ca: fs.readFileSync('/etc/letsencrypt/live/connectiveunconscious.com/chain.pem', 'utf8')
   };
-  const httpsServer = https.createServer(credentials, app);
-  httpsServer.listen(443, () => {
-    console.log('HTTPS Server running');
+  // Feed our app into an https server
+  https.createServer(credentials, app).listen(443, () => {
+    console.log('HTTPS Server running on port 443');
+  });
+  // run a minimal http server to redirect
+  const httpApp = express();
+  httpApp.all('*', (req, res) => {
+    res.redirect(302, 'https://' + req.headers.host + req.url);
+  });
+  http.createServer(httpApp).listen(8080, () => {
+    console.log('HTTP redirect server running on port 8080');
   });
 }
-
-const httpApp = express();
-httpApp.all('*', (req, res) => {
-  res.redirect(300, 'https://' + req.headers.host + req.url);
-});
-const httpServer = http.createServer(httpApp);
-httpServer.listen(8080, () => {
-  console.log('HTTP Server running');
-});
-
+else
+{
+  http.createServer(app).listen(8080, () => {
+    console.log('HTTP Server running on port 8080');
+  });
+}
 
 /**
  * Get port from environment and store in Express.
