@@ -28,7 +28,6 @@ if (use_https)
     console.log('HTTPS Server running on port 443');
   });
   server.on('error', onError);
-  server.on('listening', onListening);
 
   // run a minimal http server to redirect
   const httpApp = express();
@@ -40,7 +39,6 @@ if (use_https)
     console.log('HTTP redirect server running on port 80');
   });
   httpServer.on('error', onError);
-  httpServer.on('listening', onListening);
 }
 else
 {
@@ -50,7 +48,6 @@ else
     console.log('HTTP Server running on port 8080');
   });
   server.on('error', onError);
-  server.on('listening', onListening);
 }
 
 /**
@@ -78,15 +75,4 @@ function onError(error) {
     default:
       throw error;
   }
-}
-
-/**
- * Event listener for HTTP server "listening" event.
- */
-function onListening() {
-  var addr = server.address();
-  var bind = typeof addr === 'string'
-    ? 'pipe ' + addr
-    : 'port ' + addr.port;
-  debug('Listening on ' + bind);
 }

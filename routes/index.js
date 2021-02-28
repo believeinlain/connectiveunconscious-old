@@ -7,6 +7,15 @@ router.get('/', function(req, res, next) {
   res.render('index', { title: 'Connective Unconscious' });
 });
 
+router.get('/planetgen/', function(req, res, next) {
+  res.render('planetgen', { title: 'Planet Generator' });
+});
+
+serve_photo_album('nihonnoyume', '日本の夢');
+serve_photo_album('jikannoyume', '時間の夢');
+
+module.exports = router;
+
 function serve_photo_album(album_name, display_name) {
   // Parse photo list
   var photo_array = new Array();
@@ -36,8 +45,3 @@ function serve_photo_album(album_name, display_name) {
       next_id: next_id});
   });
 };
-
-serve_photo_album('nihonnoyume', '日本の夢');
-serve_photo_album('jikannoyume', '時間の夢');
-
-module.exports = router;
