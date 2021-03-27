@@ -40,6 +40,7 @@ function serve_photo_album(album_name, display_name) {
       album: album_name,
       title: display_name,
       photo: photo_array[photo_id],
+      caption: '',
       photo_id: photo_id,
       last_id: last_id,
       next_id: next_id});

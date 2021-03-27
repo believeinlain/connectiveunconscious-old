@@ -2,6 +2,7 @@
   box-sizing: border-box;
   font-family: Helvetica, Arial, sans-serif;
   color: #ccc;
+  z-index: 0;
 }
 :root {
   --header-height: 90px;
@@ -20,6 +21,17 @@ body {
   margin: auto;
   padding: 10px;
   padding-top: var(--header-height);
+}
+.caption {
+  position: relative;
+  z-index: 3;
+  text-align: center;
+  top: 30%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background-color:rgba(34, 34, 34, 0.8);
+  display: inline-block;
+  padding: 5px;
 }
 h1 {
   font-size: 30px;
