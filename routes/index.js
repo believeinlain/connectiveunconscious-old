@@ -21,6 +21,8 @@ function serve_photo_album(album_name, display_name) {
   var photo_array = new Array();
   // read the ordered list of photos
   var text = fs.readFileSync(`./public/${album_name}/list.txt`, 'utf-8');
+  // read the list of captions
+  var captions = JSON.parse(fs.readFileSync(`./public/${album_name}/captions.json`, 'utf-8'));
   photo_array = text.trim().split('\n');
 
   router.get(`/${album_name}/`, function(req, res, next) {
@@ -35,12 +37,13 @@ function serve_photo_album(album_name, display_name) {
     }
     var last_id = (photo_id-1)>=0 ? photo_id-1 : photo_array.length-1;
     var next_id = (photo_id+1)==photo_array.length ? 0 : photo_id+1; 
+    var photo_name = photo_array[photo_id].trim();
     // draw the image page
     res.render('photo_album', { 
       album: album_name,
       title: display_name,
-      photo: photo_array[photo_id],
-      caption: '',
+      photo: photo_name,
+      caption: captions[photo_name],
       photo_id: photo_id,
       last_id: last_id,
       next_id: next_id});
