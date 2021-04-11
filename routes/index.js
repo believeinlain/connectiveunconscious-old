@@ -17,13 +17,9 @@ serve_photo_album('jikannoyume', '時間の夢');
 module.exports = router;
 
 function serve_photo_album(album_name, display_name) {
-  // Parse photo list
-  var photo_array = new Array();
-  // read the ordered list of photos
-  var text = fs.readFileSync(`./public/${album_name}/list.txt`, 'utf-8');
   // read the list of captions
   var captions = JSON.parse(fs.readFileSync(`./public/${album_name}/captions.json`, 'utf-8'));
-  photo_array = text.trim().split('\n');
+  var photo_array = Object.getOwnPropertyNames(captions);
 
   router.get(`/${album_name}/`, function(req, res, next) {
     var image = req.query['image'];
