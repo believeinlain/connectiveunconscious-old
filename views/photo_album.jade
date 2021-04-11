@@ -5,7 +5,7 @@ block content
     img(src="/#{album}/photos/#{photo}", alt="#{title}")
     a(href="/#{album}/?image=#{last_id}", class="japanese") 先
     a(href="/#{album}/?image=#{next_id}", class="japanese") 次
-    p(class="caption") #{caption}
+    p(class="caption #{no_caption}") #{caption}
   
 block footer 
   p by Stephanie Aelmore, no rights reserved. 

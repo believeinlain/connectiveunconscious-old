@@ -44,6 +44,7 @@ function serve_photo_album(album_name, display_name) {
       title: display_name,
       photo: photo_name,
       caption: captions[photo_name],
+      no_caption: captions[photo_name]=='' ? ', no_caption' : '',
       photo_id: photo_id,
       last_id: last_id,
       next_id: next_id});
