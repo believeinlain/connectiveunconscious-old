@@ -1,3 +1,3 @@
 # Connective Unconscious
-Repository for my personal website: https://connectiveunconscious.com  
+Repository for my personal website: http://connectiveunconscious.com  
 Built with Node.js, Jade, and Express.
